@@ -1,0 +1,43 @@
+<div class="search-category-container">
+  <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="category-select">
+    <option value="">Select Category</option>
+    <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+  </select>
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    (input)="onSearch()"
+    placeholder="Search videos by description..."
+    class="search-input"
+  />
+</div>
+
+<div *ngIf="filteredVideos.length > 0">
+  <ul>
+    <li *ngFor="let video of filteredVideos; let i = index" class="video-container">
+      <div class="video-wrapper"
+           (mouseenter)="onMouseEnter(i)"
+           (mousedown)="onMouseDown(i)">
+        <video
+          #videoElement
+          [src]="'http://localhost:7777/' + video.filePath"
+          type="video/mp4"
+          autoplay
+          muted
+          playsinline
+          (click)="onVideoClick(i)"
+        >
+
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-info">
+          <h3>{{ video.title }}</h3>
+          <p class="video-description">{{ video.description }}</p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div *ngIf="filteredVideos.length === 0">
+  <p>No videos available.</p>
+</div>
